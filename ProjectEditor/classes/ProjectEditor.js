@@ -1,5 +1,7 @@
-function ProjectEditor()
-{
+
+function ProjectEditor ( doc, $container, ConfigViewContent, _module ) {
+    /*var ConfigViewContent           = require("text!ProjectEditor/views/ProjectEditor.html"), */
+       var  FileUtils                   = brackets.getModule("file/FileUtils");
     /**
     * Instance Variables
     */
@@ -9,7 +11,21 @@ function ProjectEditor()
     
     this._view.addClass("project-editor");
     
+    this.$container = $container;
+    this.doc = doc;
+    this.$el = $(Mustache.render(ConfigViewContent, this.json));
+    this.$el.css({
+        "background-image": "url(file://" + FileUtils.getNativeModuleDirectoryPath(_module) + "/ProjectEditor/views/img/logo-sm.png)",
+        "background-position": "bottom right",
+        "background-repeat": "no-repeat"
+        });
+    $container.append(this.$el);
+    
     ProjectEditor.addProjectEditor(this);
+    
+    var projectEditor = this;
+    
+    FileUtils.readAsText(this.getFile()).done(function(text){projectEditor.fileLoaded(text);});
 }
 
 /********************************************************************
@@ -71,6 +87,31 @@ ProjectEditor.prototype.parse = function (json)
     }
 }
 
+ProjectEditor.prototype.fileLoaded = function(text)
+{
+    if(text === "")
+    {
+        this.createNewProject();
+    }
+    else
+    {  
+        this.parse(JSON.parse(text));
+    }
+}
+
+ProjectEditor.prototype.loadFail = function()
+{
+    
+}
+
+ProjectEditor.prototype.createNewProject = function()
+{
+    var project = new Project();
+    project.setProjectName("My New Project");
+    
+    this.setProject(project);
+}
+
 /**
  * Gets project
  * @return {Project} project
@@ -78,6 +119,14 @@ ProjectEditor.prototype.parse = function (json)
 ProjectEditor.prototype.getProject = function()
 {
     return this._project;
+}
+  /* 
+ * Retrieves the file object for this view
+ * return {!File} the file object for this view
+ */
+ProjectEditor.prototype.getFile = function () 
+{
+    return this.doc.file;
 }
 
 /**
@@ -87,6 +136,20 @@ ProjectEditor.prototype.getProject = function()
 ProjectEditor.prototype.setProject = function(value)
 {
     this._project = value;
+    
+    this.$el.find("h1#project-name").html(this._project.getProjectName());
+}
+
+/* 
+* Updates the layout of the view
+*/
+ProjectEditor.prototype.updateLayout = function ()
+{
+}
+
+ProjectEditor.prototype.destroy = function () 
+{
+   // this.$view.remove();
 }
 
 
