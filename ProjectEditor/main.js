@@ -5,8 +5,13 @@ define(function (require, exports, module) {
        var DocumentManager             = brackets.getModule("document/DocumentManager"),
         MainViewFactory             = brackets.getModule("view/MainViewFactory"),
         ConfigViewContent           = require("text!ProjectEditor/views/ProjectEditor.html"), 
-         FileUtils                   = brackets.getModule("file/FileUtils");
+         FileUtils                   = brackets.getModule("file/FileUtils"), 
+           ExtensionUtils = brackets.getModule("utils/ExtensionUtils");
 
+    
+    
+    ExtensionUtils.loadStyleSheet(module, "css/style.less");
+    
   /* our module object */
     var _module = module;
 
@@ -21,16 +26,6 @@ define(function (require, exports, module) {
     
     var DocumentManager = brackets.getModule("document/DocumentManager");
     var EditorManager = brackets.getModule("editor/EditorManager");
-    var currentDoc = DocumentManager.getCurrentDocument();
-    var editor = EditorManager.getCurrentFullEditor();
-    
-    function addSomeText() {        
-        var currentDoc = DocumentManager.getCurrentDocument();
-        var editor = EditorManager.getCurrentFullEditor();
-        var pos = editor.getCursorPos();
-
-        currentDoc.replaceRange("//Black magic. Do not modify EVER", pos);
-    }
 
     function getMyView(file, pane)
     {
@@ -55,39 +50,5 @@ define(function (require, exports, module) {
         return result.promise();
 
     }
-        /* @type {Object.<string, ConfigView>} List of open views */
-    function ConfigView(doc, $container) {
-        this.$container = $container;
-        this.doc = doc;
-        this.$el = $(Mustache.render(ConfigViewContent, this.json));
-        this.$el.css({
-            "background-image": "url(file://" + FileUtils.getNativeModuleDirectoryPath(_module) + "/ProjectEditor/views/img/logo-sm.png)",
-            "background-position": "bottom right",
-            "background-repeat": "no-repeat"
-        });
-        $container.append(this.$el);
-    }
-    
-    /* 
-     * Retrieves the file object for this view
-     * return {!File} the file object for this view
-     */
-    ConfigView.prototype.getFile = function () {
-        return this.doc.file;
-    };
-    
-    /* 
-     * Updates the layout of the view
-     */
-    ConfigView.prototype.updateLayout = function ()
-    {
-};
-
-/* 
- * Destroys the view
- */
-ConfigView.prototype.destroy = function () {
-    this.$view.remove();
-};
 });
 

@@ -8,11 +8,11 @@ function Project()
  * @param {Project} project to be serialized
  * @return {Object} serialized representation of Project
  */
-Project.serialize = function(project)
+Project.prototype.serialize = function()
 {
     var obj = {};
     
-    obj.projectName = project.getProjectName();
+    obj.projectName = this.getProjectName();
     
     return obj;
 }
@@ -25,7 +25,7 @@ Project.serialize = function(project)
  * Parses JSON document into a Project instance
  * @param {JSON} json representing a serialized project
  */
-ProjectEditor.prototype.parse = function (json)
+Project.prototype.parse = function (json)
 {
     this._projectName = json.projectName;
 }

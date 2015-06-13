@@ -1,13 +1,11 @@
-<div class="brackets-config-central">
-    <h1 id = "project-name"></h1>
-    <div class="config-options">
-        <label>
-            <p>Default file Extension When Creating New Files:</p>
-            <input type="text" value="{{defaultExtension}}">
-        </label>
-        <label>
-            <p>Number of space units for tabs</p>
-            <input type="text" value="{{spaceUnits}}">
-        </label>
-    </div>
+<div id = "super-project-editor" class="super-editor">
+    <header>
+        <h1 id = "project-name"></h1>
+        <h1><input id = "project-name-input" type="text" value="{{defaultExtension}}"></h1>
+        <div class = "super-content-right">
+            <button id = "project-name-edit" class = "btn">edit</button>
+            <button id = "project-name-save" class = "btn primary">save</button>
+            <button id = "project-name-cancel" class = "btn">cancel</button>
+        </div>
+    </header>
 </div>
