@@ -19,20 +19,15 @@ function ProjectEditor ( doc, $container, ConfigViewContent, _module )
     this.$container = $container;
     this.doc = doc;
     this.$el = $(Mustache.render(ConfigViewContent, this));
-    this.$el.css({
-        "background-image": "url(file://" + FileUtils.getNativeModuleDirectoryPath(_module) + "/views/img/logo-sm.png)",
-        "background-position": "bottom right",
-        "background-repeat": "no-repeat"
-        });
     $container.append(this.$el);
     
     
     
-    this._$projectName          = $("#project-name");
-    this._$projectNameInput     = $("#project-name-input");
-    this._$editProjectName      = $("#project-name-edit").click(this, this.onEditProjectName);
-    this._$saveProjectName      = $("#project-name-save").click(this, this.onSaveProjectName);
-    this._$cancelProjectName    = $("#project-name-cancel").click(this, this.onCancelProjectName);
+    this._$projectName          = this.$el.find("#project-name");
+    this._$projectNameInput     = this.$el.find("#project-name-input");
+    this._$editProjectName      = this.$el.find("#project-name-edit").click(this, this.onEditProjectName);
+    this._$saveProjectName      = this.$el.find("#project-name-save").click(this, this.onSaveProjectName);
+    this._$cancelProjectName    = this.$el.find("#project-name-cancel").click(this, this.onCancelProjectName);
     
     this.projectNameState(this._editProjectName);
     

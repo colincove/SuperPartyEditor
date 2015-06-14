@@ -1,23 +1,21 @@
 define(function (require, exports, module) {
     "use strict";
-    require("ProjectEditor/classes/ProjectEditor");
-    require("ProjectEditor/classes/Project");
+    require("SpriteEditor/classes/SpriteEditor");
+    require("SpriteEditor/classes/Sprite");
+     require("SpriteEditor/classes/Animation");
+     require("SpriteEditor/classes/Frame");
        var DocumentManager             = brackets.getModule("document/DocumentManager"),
         MainViewFactory             = brackets.getModule("view/MainViewFactory"),
-        ConfigViewContent           = require("text!ProjectEditor/views/ProjectEditor.html"), 
+        ConfigViewContent           = require("text!SpriteEditor/views/SpriteEditor.html"), 
          FileUtils                   = brackets.getModule("file/FileUtils"), 
            ExtensionUtils = brackets.getModule("utils/ExtensionUtils");
-
-    
-    
-    ExtensionUtils.loadStyleSheet(module, "css/style.less");
     
   /* our module object */
     var _module = module;
 
     MainViewFactory.registerViewFactory({
         canOpenFile: function (fullPath) {
-          return (fullPath.slice(-6) === ".sproj");
+          return (fullPath.slice(-7) === ".sprite");
       },
       openFile: function(file, pane) {
           return getMyView(file, pane);
@@ -39,7 +37,7 @@ define(function (require, exports, module) {
         } else {
             DocumentManager.getDocumentForPath(file.fullPath)
                 .done(function (doc) {
-                    var view = new ProjectEditor(doc, pane.$el, ConfigViewContent, _module);
+                    var view = new SpriteEditor(doc, pane.$el, ConfigViewContent, _module);
                     pane.addView(view, true);
                     result.resolve(doc.file);
                 })
@@ -49,5 +47,6 @@ define(function (require, exports, module) {
         }
         return result.promise();
     }
+    ExtensionUtils.loadStyleSheet(module, "css/style.less");
 });
 

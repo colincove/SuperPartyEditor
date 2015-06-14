@@ -1,6 +1,7 @@
 function Project()
 {
     this._projectName = "";
+    this._uuid = UUID.create();
 }
 
 /**
@@ -13,6 +14,7 @@ Project.prototype.serialize = function()
     var obj = {};
     
     obj.projectName = this.getProjectName();
+    obj.uuid = this._uuid;
     
     return obj;
 }
@@ -28,6 +30,7 @@ Project.prototype.serialize = function()
 Project.prototype.parse = function (json)
 {
     this._projectName = json.projectName;
+    this._uuid = json.uuid;
 }
 
 Project.prototype.setProjectName = function (value)
@@ -38,4 +41,9 @@ Project.prototype.setProjectName = function (value)
 Project.prototype.getProjectName = function ()
 {
     return this._projectName;
+}
+
+Project.prototype.getUUID = function()
+{
+    return this._uuid;
 }
